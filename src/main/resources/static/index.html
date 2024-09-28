@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Employee Management System</title>
+	<style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .box {
+            display: inline-block;
+            width: 200px; /* Adjusted width for better visibility of text */
+            height: 100px;
+            margin: 10px;
+            text-align: center;
+            line-height: 100px;
+            cursor: pointer;
+            background-color: lightblue;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            text-decoration: none; /* Remove default link underline */
+            color: #333; /* Text color */
+            border: 2px solid #333; /* Common border style for all boxes */
+            font-size: 16px;
+        }
+
+        .box:hover {
+            transform: scale(1.1);
+            background-color: #7fc7ff;
+            border-color: #333; /* Border color on hover */
+        }
+    </style>
+</head>
+<body>
+	<h1>Welcome to Employee Management System</h1>
+    
+    <a href="Add Employee.html" class="box">Add Employee</a>
+    <a href="/employee_page/" class="box">View All Employee</a>
+    <a href="Update Employee.html" class="box">Update Employee</a>
+    <button onclick="promptForIdAndRedirect('view')"class="box">View Employee</button>
+    <button onclick="promptForIdAndRedirect('delete')"class="box">Delete Employee</button>
+
+    <script>
+		async function checkEmployeeId(employeeId) {
+		    const response = await fetch('http://localhost:8080/employee_page/checkEmployeeId/' + employeeId);
+		    return await response.json();
+		}
+		
+        async function promptForIdAndRedirect(action) {
+            var employeeId = prompt("Enter Employee ID:");
+            if (employeeId !== null) {
+				const exists = await checkEmployeeId(employeeId);
+
+	            if (exists) {
+	                var redirectUrl = '/employee_page/' + action + 'Employee/' + employeeId;
+                	window.location.href = redirectUrl;
+	            } else {
+	                alert("Employee ID does not exist. Please enter a valid ID.");
+	            }
+                
+            }
+        }
+    </script>
+	
+</body>
+</html>
